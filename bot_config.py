@@ -1,1 +1,3 @@
-BOT_TOKEN = '8064574916:AAFhAD9FanHwJIEpTzZaFwVH4E6x6Uq3sHM'
+from dotenv import dotenv_values
+
+token = dotenv_values('.env')['BOT_TOKEN']
