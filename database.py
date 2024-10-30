@@ -1,31 +1,26 @@
 import sqlite3
 
 
-def create_db():
-    conn = sqlite3.connect('homework.db')  # Создаем (или открываем) базу данных
-    cursor = conn.cursor()
+class Database:
+    def __init__(self, path: str):
+        self.path = path
 
-    # Создаем таблицу homeworks
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS homeworks (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            group_name TEXT NOT NULL,
-            homework_number INTEGER NOT NULL,
-            github_link TEXT NOT NULL
-        )
-    ''')
+    def create_table(self):
+        with sqlite3.connect(self.path) as connection:
+            cursor = connection.cursor()
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS homeworks (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT,
+                    grupe TEXT,
+                    num_hw INTEGER,
+                    link_to_github TEXT
+                )
+            """)
 
-    conn.commit()  # Сохраняем изменения
-    conn.close()  # Закрываем соединение
+            connection.commit()
 
-
-def save_homework(name, group_name, homework_number, github_link):
-    conn = sqlite3.connect('homework.db')
-    cursor = conn.cursor()
-
-    cursor.execute('INSERT INTO homeworks (name, group_name, homework_number, github_link) VALUES (?, ?, ?, ?)',
-                   (name, group_name, homework_number, github_link))
-
-    conn.commit()
-    conn.close()
+    def execute(self, query: str, params: tuple = ()):
+        with sqlite3.connect(self.path) as connection:
+            connection.execute(query, params)
+            connection.commit()

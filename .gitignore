@@ -60,6 +60,10 @@ cover/
 *.pot
 
 # Django stuff:
+*.sqlite3
+*.sqlite3-journal
+*.sqlite
+*.sqlite-journal
 *.log
 local_settings.py
 db.sqlite3
@@ -125,7 +129,7 @@ celerybeat.pid
 
 # Environments
 .env
-.venv
+Lesson/.venv
 env/
 venv/
 ENV/
@@ -174,4 +178,3 @@ poetry.toml
 pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python
-bot_config

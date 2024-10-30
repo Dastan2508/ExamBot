@@ -1,17 +1,24 @@
-# main.py
 import asyncio
 import logging
-from aiogram import Bot, Dispatcher
-from bot_config import BOT_TOKEN
+
 from start import start_router
 from home_work import homework_router
+from aiogram import Bot
 
-bot = Bot(token=BOT_TOKEN)
-dp = Dispatcher()
+from bot_config import bot, dp, database
 
-dp.include_router(start_router)
-dp.include_router(homework_router)
+
+async def start_db():
+    print("База данных созданнна")
+    database.create_table()
+
+
 async def main():
+    dp.include_router(start_router)
+    dp.include_router(homework_router)
+
+    dp.startup.register(start_db)
+
     await dp.start_polling(bot)
 
 
